@@ -4,6 +4,7 @@ class SpeedStone :
     public GameObject
 {
 public:
+    SpeedStone();
     SpeedStone(GameObject parent);
     ~SpeedStone();
     void Update() override;
@@ -20,6 +21,11 @@ public:
     bool CollideCircle(float x, float y, float r);
 
     void Reset();
+
+    bool IsAlive() { return isAlive; }
+    void DeActivateMe() { isAlive = false; }
+    void ActivateMe() { isAlive = true; }
+
 private:
     bool prevSpaceKey;
     float jumpSpeed;
@@ -33,5 +39,6 @@ private:
     int frameCounter;
     bool IsReverse;
     int tmpPosx, tmpPosy;
+    bool isAlive;
 };
 

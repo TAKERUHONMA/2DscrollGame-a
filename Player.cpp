@@ -34,6 +34,7 @@ Player::Player(GameObject* parent)
 	transform_.position_.y = GROUND;
 	jumpSpeed = 0.0f;
 	onGround = true;
+	isAlive = true;
 	animType = 0;
 	animFrame = 0;
 	frameCounter = 0;
@@ -123,7 +124,7 @@ void Player::Update()
 	}
 	else
 	{
-		if (CheckHitKey(KEY_INPUT_O))
+		if (CheckHitKey(KEY_INPUT_SPACE))
 		{
 			if (counter <= 0)
 			{
@@ -194,7 +195,9 @@ void Player::Update()
 		{
 			animType = 4;
 			animFrame = 0;
-			transform_.position_.x += MOVE_SPEED2;
+			pSs->DeActivateMe();
+			this->DeActivateMe();
+
 			//state = S_Cry;
 			//scene->StartDead();
 			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
@@ -314,18 +317,14 @@ void Player::ControlCollision()
 
 bool Player::MovePlayer()
 {
+	SpeedStone* sp = new SpeedStone;
+
 	//‘Oi
 	if (CheckHitKey(KEY_INPUT_D))
 	{
-		ReversX = false;
-		transform_.position_.x += MOVE_SPEED;
-		return true;
-		/*int hitX = transform_.position_.x + 65;
-		int hitY = transform_.position_.y + 60;
-		if (pField != nullptr) {
-			int push = pField->CollisionRight(hitX, hitY);
-			transform_.position_.x -= push;
-		}*/
+			ReversX = false;
+			transform_.position_.x += MOVE_SPEED;
+			return true;
 	}
 	else if (CheckHitKey(KEY_INPUT_A))//Œã‘Þ
 	{
@@ -333,12 +332,6 @@ bool Player::MovePlayer()
 		transform_.position_.x -= MOVE_SPEED;
 		return true;
 	}
-			/*int hitX = transform_.position_.x + 5;
-			int hitY = transform_.position_.y + 60;
-			if (pField != nullptr)
-			{
-				int push = (pField->CollisionLeft(hitX + 10, hitY)) / 12;
-				transform_.position_.x += push;
-			}*/
+
 	return false;
 }

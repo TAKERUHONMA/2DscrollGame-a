@@ -27,6 +27,11 @@ public:
 	void ControlCollision();
 	void SetGround(float _ground) { Ground = _ground; }
 	bool MovePlayer();
+
+	bool IsActive() { return isAlive; }//isAlive‚ªtrue‚©‚Ç‚¤‚©
+	void DeActivateMe() { isAlive = false; }
+	void ActivateMe() { isAlive = true; }
+
 private:
 	int hImage;
 	int kazu;
@@ -47,6 +52,7 @@ private:
 	int ceiling;
 	int Ground;
 	bool firstGround;
+	bool isAlive;
 
 	enum State {
 		S_Walk=0,
