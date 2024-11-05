@@ -22,6 +22,7 @@ public:
 	void Reset();
 
 	int count;
+	int count1;
 
 	bool GetReversX() { return ReversX; }
 	void ControlCollision();

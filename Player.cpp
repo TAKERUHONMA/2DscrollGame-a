@@ -11,7 +11,8 @@
 #include "SpeedStone.h"
 #include "TestScene.h"
 
-namespace {
+namespace 
+{
 	const Size P_SIZE = { 80,88 };
 	const float MOVE_SPEED = 2.0f;
 	const float MOVE_SPEED2 = 6.0f;
@@ -25,7 +26,7 @@ namespace {
 
 
 Player::Player(GameObject* parent) 
-	: GameObject(sceneTop), counter(0), count(0), rcount(0), firstGround(true)
+	: GameObject(sceneTop), counter(0), count(0), rcount(0), firstGround(true),count1(0)
 {
 	hImage = LoadGraph("Assets/player2.png");
 	kazu = LoadGraph("Assets/suji.png");
@@ -191,18 +192,22 @@ void Player::Update()
 	std::list<SpeedStone*> pSs = GetParent()->FindGameObjects<SpeedStone>();
 	for (SpeedStone* pSs : pSs)
 	{
-		if (pSs->CollideCircle(transform_.position_.x + 32.0f, transform_.position_.y + 32.0f, 20.0f))
+		if (count1 != 1)
 		{
-			animType = 4;
-			animFrame = 0;
-			pSs->DeActivateMe();
-			this->DeActivateMe();
-
-			//state = S_Cry;
-			//scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
+			if (pSs->CollideCircle(transform_.position_.x + 32.0f, transform_.position_.y + 32.0f, 20.0f))
+			{
+				animType = 4;
+				animFrame = 0;
+				pSs->DeActivateMe();
+				this->DeActivateMe();
+				count1 = 1;
+			}
 		}
+		else
+		{
+			//当たり判定もなくす
+		}
+
 	}
 
 	//ここでカメラ位置の調整
@@ -211,13 +216,16 @@ void Player::Update()
 
 	Field* field = GetParent()->FindGameObject<Field>();
 	
-	if (field->GetRightSc()) {
+	if (field->GetRightSc()) 
+	{
 		if (x > 600) {
 			x = 600;
 			cam->SetValue((int)transform_.position_.x - x);
 		}
 	}
-	if (field->GetLeftSc()) {
+
+	if (field->GetLeftSc()) 
+	{
 		if (x < 500) {
 			x = 500;
 			cam->SetValue((int)transform_.position_.x - x);
@@ -248,6 +256,7 @@ void Player::Update()
 	}
 }
 
+//描画
 void Player::Draw()
 {
 	DrawRectGraph(145, -10, 0, STONE_NUMBER, 92, 64, kazu, TRUE);
@@ -277,6 +286,7 @@ void Player::Reset()
 	DrawRectGraph(170, 0, 0, STONE_NUMBER, 64, 64, kazu, TRUE);
 }
 
+
 void Player::ControlCollision()
 {
 	Field* map = GetParent()->FindGameObject<Field>();
@@ -294,44 +304,74 @@ void Player::ControlCollision()
 		transform_.position_.x += tmpPosx % 32 / 10;
 	}
 
-	if (map->IsCollisionUp(collX1) || map->IsCollisionUp(collX2)) {
+	if (map->IsCollisionUp(collX1) || map->IsCollisionUp(collX2)) 
+	{
 		ceiling = tmpPosy;
 	}
-	else {
+	else 
+	{
 		ceiling = 0;
 	}
 
-	if (map->IsCollisionDown(collX1) || map->IsCollisionDown(collX2)) {
-		if (firstGround) {
+	if (map->IsCollisionDown(collX1) || map->IsCollisionDown(collX2)) 
+	{
+		if (firstGround) 
+		{
 			Ground -= 20;
 			firstGround = false;
 		}
-		else {
+		else 
+		{
 			Ground = tmpPosy;
 		}
 	}
-	else {
+	else 
+	{
 		Ground = 1000;
 	}
 }
 
+
+//スピードストーンをとったら移動速度が上がる
 bool Player::MovePlayer()
 {
 	SpeedStone* sp = new SpeedStone;
 
-	//前進
-	if (CheckHitKey(KEY_INPUT_D))
+	if (count1 != 1)
 	{
+		//前進
+		if (CheckHitKey(KEY_INPUT_D))
+		{
 			ReversX = false;
 			transform_.position_.x += MOVE_SPEED;
 			return true;
+		}
+		else if (CheckHitKey(KEY_INPUT_A))//後退
+		{
+			ReversX = true;
+			transform_.position_.x -= MOVE_SPEED;
+			return true;
+		}
+
+		return false;
 	}
-	else if (CheckHitKey(KEY_INPUT_A))//後退
+	else
 	{
-		ReversX = true;
-		transform_.position_.x -= MOVE_SPEED;
-		return true;
+		//前進
+		if (CheckHitKey(KEY_INPUT_D))
+		{
+			ReversX = false;
+			transform_.position_.x += MOVE_SPEED2;
+			return true;
+		}
+		else if (CheckHitKey(KEY_INPUT_A))//後退
+		{
+			ReversX = true;
+			transform_.position_.x -= MOVE_SPEED2;
+			return true;
+		}
+
+		return false;
 	}
 
-	return false;
 }
