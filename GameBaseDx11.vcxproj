@@ -96,7 +96,7 @@
       <AdditionalIncludeDirectories>D:\GE2A06\プロジェクトに追加すべきファイル_VC用;C:\Users\Masay\source\repos\プロジェクトに追加すべきファイル_VC用 1\プロジェクトに追加すべきファイル_VC用;D:\GE2A 21\code\プロジェクトに追加すべきファイル_VC用;D:\プロジェクトに追加すべきファイル_VC用;D:\GE2A21\Coad\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\GE2A06\プロジェクトに追加すべきファイル_VC用;D:\プロジェクトに追加すべきファイル_VC用;D:\GE2A 21\code\プロジェクトに追加すべきファイル_VC用;D:\GE2A21\Coad\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\GE2A06\プロジェクトに追加すべきファイル_VC用;D:\プロジェクトに追加すべきファイル_VC用;D:\GE2A 21\code\プロジェクトに追加すべきファイル_VC用;D:\GE2A21\Coad\プロジェクトに追加すべきファイル_VC用;C:\Users\Masay\source\repos\プロジェクトに追加すべきファイル_VC用 1\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

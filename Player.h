@@ -21,9 +21,6 @@ public:
 
 	void Reset();
 
-	int count;
-	int count1;
-
 	bool GetReversX() { return ReversX; }
 	void ControlCollision();
 	void SetGround(float _ground) { Ground = _ground; }
@@ -39,9 +36,9 @@ private:
 
 	GameObject* sceneTop;
 	bool prevSpaceKey;
-	float jumpSpeed;
+	float jumpSpeed; //ジャンプのスピード
 	bool onGround;
-	int counter;
+	int counter; //クールタイム
 	int rcount;
 	int animType; //状況
 	int animFrame;//コマ
@@ -53,7 +50,9 @@ private:
 	int ceiling;
 	int Ground;
 	bool firstGround;
-	bool isAlive;
+	bool isAlive; //生死
+	int count; //アニメーション
+	int count1; //スピードストーンを取ったか
 
 	enum State {
 		S_Walk=0,

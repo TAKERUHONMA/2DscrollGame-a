@@ -18,7 +18,7 @@ Field::Field(GameObject* scene)
 	hImage = LoadGraph("Assets/bgchar.png");
 	background = LoadGraph("Assets/mori.jpg");
 	stone = LoadGraph("Assets/isi.png");
-	sousa = LoadGraph("Assets/sousa.png");
+	//sousa = LoadGraph("Assets/sousa.png");
 	assert(hImage > 0);
 	assert(background > 0);
 	Map = nullptr;
@@ -30,14 +30,16 @@ Field::~Field()
 	{
 		DeleteGraph(hImage);
 	}
-	if (Map != nullptr) {
+	if (Map != nullptr) 
+	{
 		delete[] Map; //Map‚Í”z—ñ
 	}
 }
 
 void Field::Reset()
 {
-	if (Map != nullptr) {
+	if (Map != nullptr) 
+	{
 		delete[] Map;
 		Map = nullptr;
 	}

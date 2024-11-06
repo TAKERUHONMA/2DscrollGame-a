@@ -26,7 +26,7 @@ namespace
 
 
 Player::Player(GameObject* parent) 
-	: GameObject(sceneTop), counter(0), count(0), rcount(0), firstGround(true),count1(0)
+	: GameObject(sceneTop), counter(0), count(0), rcount(100), firstGround(true),count1(0)
 {
 	hImage = LoadGraph("Assets/player2.png");
 	kazu = LoadGraph("Assets/suji.png");
@@ -61,10 +61,16 @@ void Player::Update()
 	tmpPosy = transform_.position_.y;
 
 	Field* pField = GetParent()->FindGameObject<Field>();
+
 	Stone* st = Instantiate<Stone>(GetParent());
 
+	TestScene* scene = dynamic_cast<TestScene*>(GetParent());
+	if (!scene->CanMove())
+		return;
+
 	counter -= 1;
-	//rcount += 1;
+
+
 
 	if (state == S_Cry)
 	{
@@ -75,9 +81,7 @@ void Player::Update()
 		return;
 	}
 
-	TestScene* scene = dynamic_cast<TestScene*>(GetParent());
-	if (!scene->CanMove())
-		return;
+
 
 	if (MovePlayer()) 
 	{
@@ -98,21 +102,6 @@ void Player::Update()
 
 	ControlCollision();
 
-	/*if (pField != nullptr)
-	{
-		//(50,64)‚Æ(14,64)‚àŒ©‚é
-		int pushR = pField->CollisionDown(transform_.position_.x + 80, transform_.position_.y + 80);
-		int pushL = pField->CollisionDown(transform_.position_.x + 14, transform_.position_.y + 80);
-		int push = max(pushR, pushL);//‚Q‚Â‚Ì‘«Œ³‚Ì‚ß‚èž‚Ý‚Ì‘å‚«‚¢•û
-		if (push >= 1) {
-			transform_.position_.y -= push - 1;
-			jumpSpeed = 0.0f;
-			onGround = true;
-		}
-		else {
-			onGround = false;
-		}
-	}*/
 	if (transform_.position_.y > Ground) {
 		transform_.position_.y = Ground;
 		jumpSpeed = 0.0f;
@@ -150,8 +139,6 @@ void Player::Update()
 			animFrame = 0;
 			state = S_Cry;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -163,10 +150,7 @@ void Player::Update()
 		{
 			animType = 4;
 			animFrame = 0;
-			//state = S_Cry;
 			scene->StartDead();
-			//SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			//pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 		}
 	}
 
@@ -199,13 +183,18 @@ void Player::Update()
 				animType = 4;
 				animFrame = 0;
 				pSs->DeActivateMe();
-				this->DeActivateMe();
+				//this->DeActivateMe();
 				count1 = 1;
 			}
 		}
 		else
 		{
-			//“–‚½‚è”»’è‚à‚È‚­‚·
+			//“–‚½‚è”»’è‚È‚­‚·
+			rcount -= 1;
+			if (rcount <= 1)
+			{
+				count1 = 0;
+			}
 		}
 
 	}
@@ -218,7 +207,8 @@ void Player::Update()
 	
 	if (field->GetRightSc()) 
 	{
-		if (x > 600) {
+		if (x > 600) 
+		{
 			x = 600;
 			cam->SetValue((int)transform_.position_.x - x);
 		}
@@ -226,7 +216,8 @@ void Player::Update()
 
 	if (field->GetLeftSc()) 
 	{
-		if (x < 500) {
+		if (x < 500) 
+		{
 			x = 500;
 			cam->SetValue((int)transform_.position_.x - x);
 		}
